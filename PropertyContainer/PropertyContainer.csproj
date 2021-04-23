@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Bindings\ErrorInfoBehavior.Impl.cs">
+      <DependentUpon>ErrorInfoBehavior.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ViewModels\ViewModelWithErrorInfo.Validations.cs">
+      <DependentUpon>ViewModelWithErrorInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Bindings\ErrorInfoBehavior.ValidationEx.cs">
+      <DependentUpon>ErrorInfoBehavior.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

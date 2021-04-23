@@ -1,0 +1,69 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity.Container" Version="5.11.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Core\IPropertyContainer.Ext.cs">
+      <DependentUpon>IPropertyContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Property.Contracts.cs">
+      <DependentUpon>Property.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Property.Event.cs">
+      <DependentUpon>Property.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\Property.Ext.cs">
+      <DependentUpon>Property.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyArgsStore.Args.cs">
+      <DependentUpon>PropertyArgsStore..cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyStore.Contract.cs">
+      <DependentUpon>PropertyStore.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyStore.Wrapper.cs">
+      <DependentUpon>PropertyStore.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UnityExt\PropertyContainerImpl.FieldInfo.cs">
+      <DependentUpon>PropertyContainerImpl.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UnityExt\PropertyContainerImpl.Contracts.cs">
+      <DependentUpon>PropertyContainerImpl.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyErrorsContainer.PropertyErrors.cs">
+      <DependentUpon>PropertyErrorsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="UnityExt\PropertyContainerImpl.Helpers.cs">
+      <DependentUpon>PropertyContainerImpl.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyErrorsContainerT.Contracts.cs">
+      <DependentUpon>PropertyErrorsContainerT.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyErrorsContainer.Contracts.cs">
+      <DependentUpon>PropertyErrorsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyErrorsContainer.Events.cs">
+      <DependentUpon>PropertyErrorsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyErrorsContainerT.PropertyValidator.cs">
+      <DependentUpon>PropertyErrorsContainerT.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyDirtyTracker.Contracts.cs">
+      <DependentUpon>PropertyDirtyTracker.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\IDirtyState.Args.cs">
+      <DependentUpon>IDirtyState.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Core\PropertyArgsStore.Inner.cs">
+      <DependentUpon>PropertyArgsStore..cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

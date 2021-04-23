@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" Version="4.2.2" />
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="Unity.Container" Version="5.11.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="PropertyErrorsContainerTests.PropertyValidator.cs">
+      <DependentUpon>PropertyErrorsContainerTests.cs</DependentUpon>
+    </Compile>
+    <Compile Update="PropertyErrorsContainerTests.PropertyErrors.cs">
+      <DependentUpon>PropertyErrorsContainerTests.cs</DependentUpon>
+    </Compile>
+    <Compile Update="PropertyStoreTests.Property.cs">
+      <DependentUpon>PropertyStoreTests.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ViewModelWithConstructor.cs">
+      <DependentUpon>ViewModel.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ViewModelWithDependencies.cs">
+      <DependentUpon>ViewModel.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

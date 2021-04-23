@@ -1,0 +1,23 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">C:\Users\eagle\AppData\Local\JetBrains\Rider2020.3\resharper-host\temp\Rider\vAny\CoverageData\_PropertyContainer.1754397847\Snapshot\snapshot.utdcvr</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cc65c679_002Dad95_002D4fda_002D84be_002Dcc9408a01e67/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="PropertyStoreTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyStoreTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests.Task_01&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests+PropertyErrorsTests.Task_01_Creation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests+PropertyErrorsTests.Task_02_Add&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests+PropertyErrorsTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests+PropertyValidatorTests.Task_01_Creation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests+PropertyValidatorTests.Task_01_Value_Not_Changed&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests+PropertyValidatorTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests.Task_01_SetupValidation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests.Task_01_Creation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyErrorsContainerTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyDirtyTrackerTests.Task_01_Creation&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyDirtyTrackerTests.Task_02_Change_And_Restore&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::39ED382F-9C55-4D05-8654-9D0231769BA8::.NETCoreApp,Version=v3.1::UnitTests.PropertyDirtyTrackerTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	
+	
+	</wpf:ResourceDictionary>

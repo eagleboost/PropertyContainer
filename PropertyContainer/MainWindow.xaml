@@ -1,0 +1,128 @@
+﻿<Window 
+  x:Class="PropertyContainer.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:viewModels="clr-namespace:PropertyContainer.ViewModels"
+  xmlns:bindings="clr-namespace:PropertyContainer.Bindings"
+  xmlns:propertyContainer="clr-namespace:PropertyContainer"
+  xmlns:converters="clr-namespace:PropertyContainer.Converters"
+  xmlns:behaviors="clr-namespace:PropertyContainer.Behaviors"
+  mc:Ignorable="d" Title="MainWindow" Height="450" Width="800"
+  d:DataContext="{d:DesignInstance propertyContainer:MainWindow}">
+
+  <Window.Resources>
+    <Style TargetType="TextBox">
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+  </Window.Resources>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <TabControl>
+      <TabControl.Items>
+        <TabItem Header="General" DataContext="{Binding ViewModel}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Label" Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <Label Grid.Row="0" Grid.Column="0" Target="{Binding ElementName=Name}">_Name</Label>
+              <TextBox Grid.Row="0" Grid.Column="2" x:Name="Name"
+                       Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+              <Label Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=Age}">_Age</Label>
+              <TextBox Grid.Row="1" Grid.Column="2" x:Name="Age"
+                       Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Validation Error" DataContext="{Binding ViewModelWithErrorInfo}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Label" Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <Label Grid.Row="0" Grid.Column="0" Target="{Binding ElementName=Name1}">_Name</Label>
+              <TextBox Grid.Row="0" Grid.Column="2" x:Name="Name1"
+                       Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       bindings:ErrorInfoBehavior.Context="{bindings:ErrorBinding ErrorInfo}"/>
+              <Label Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=Age1}">_Age</Label>
+              <TextBox Grid.Row="1" Grid.Column="2" x:Name="Age1"
+                       Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       bindings:ErrorInfoBehavior.Context="{bindings:ErrorBinding ErrorInfo}"/>
+            </Grid>
+            <ComboBox Grid.Row="1" ItemsSource="{Binding ErrorInfo.Errors}"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+              <Button Click="EnableValidationsButtonClick">Enable Validations</Button>
+              <Button Click="DisableValidationsButtonClick">Disable Validations</Button>
+              <Button Click="DisableNameValidationsButtonClick">Disable Name Validations</Button>
+              <Button Click="DisableAgeValidationsButtonClick">Disable Age Validations</Button>
+            </StackPanel>
+          </Grid>
+        </TabItem>
+        <TabItem Header="Dirty Tracker" DataContext="{Binding ViewModelWithDirtyTracker}">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="Label" Width="Auto" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+              </Grid.RowDefinitions>
+              <Label Grid.Row="0" Grid.Column="0" Target="{Binding ElementName=Name2}">_Name</Label>
+              <TextBox Grid.Row="0" Grid.Column="2" x:Name="Name2"
+                       Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       behaviors:TextBoxClearBehavior.IsEnabled="True"/>
+              <Label Grid.Row="1" Grid.Column="0" Target="{Binding ElementName=Age2}">_Age</Label>
+              <TextBox Grid.Row="1" Grid.Column="2" x:Name="Age2"
+                       Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       behaviors:TextBoxClearBehavior.IsEnabled="True"/>
+            </Grid>
+            <ComboBox Grid.Row="1" ItemsSource="{Binding DirtyTracker.DirtyItems}"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+              <Button IsEnabled="{Binding DirtyTracker.IsDirty}">Save</Button>
+            </StackPanel>
+          </Grid>
+        </TabItem>
+      </TabControl.Items>
+    </TabControl>
+    <ListBox Grid.Row="1" x:Name="LogBox" />
+  </Grid>
+
+</Window>
