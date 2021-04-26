@@ -8,7 +8,7 @@ namespace UnitTests
   using NUnit.Framework;
   using Unity;
 
-  public partial class PropertyContainerTests
+  public class PropertyContainerTests
   {
     [Test]
     public void Task_01_Resolve_01_Not_Marked()

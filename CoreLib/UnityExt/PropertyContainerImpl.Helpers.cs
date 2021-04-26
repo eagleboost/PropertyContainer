@@ -6,6 +6,8 @@ namespace CoreLib.UnityExt
   using System.Linq;
   using System.Reflection;
   using System.Runtime.CompilerServices;
+  using CoreLib.Core;
+  using CoreLib.Extensions;
   using DependencyAttribute = Unity.DependencyAttribute;
 
   /// <summary>
@@ -44,22 +46,25 @@ namespace CoreLib.UnityExt
     /// <returns></returns>
     private static IEnumerable<PropertyInfo> GetTargetProperties(Type type)
     {
-      var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-      return type.GetProperties().Where(t => IsTargetProperty(t, fields));
+      return type.GetProperties().Where(IsTargetProperty);
     }
 
     /// <summary>
-    /// 1. Make sure it's auto property, i.e. no method body for getter and setter
+    /// 1. Make sure it's virtual auto property, i.e. no method body for getter and setter
     /// 2. Make sure it does not have the [Dependency] attribute
     /// 3. Make sure it's not the PropertyStore property 
     /// </summary>
     /// <param name="property"></param>
-    /// <param name="fields"></param>
     /// <returns></returns>
-    private static bool IsTargetProperty(PropertyInfo property, IReadOnlyCollection<FieldInfo> fields)
+    private static bool IsTargetProperty(PropertyInfo property)
     {
-      var isCompilerGenerated = IsCompilerGenerated(property.GetGetMethod());
-      if (!isCompilerGenerated)
+      var accessors = property.GetAccessors();
+      if (accessors.Any(a => !a.IsVirtual || a.IsFinal))
+      {
+        return false;
+      }
+      
+      if (!IsCompilerGenerated(property.GetGetMethod()))
       {
         return false;
       }
@@ -69,34 +74,33 @@ namespace CoreLib.UnityExt
         return false;
       }
 
-      var propertyName = property.Name;
-      foreach (var field in fields)
+      if (property.PropertyType.IsSubclassOf<IPropertyStore>())
       {
-        ////the name of the backing field for auto property is something like <PropertyName>k__BackingField
-        if (field.Name.Contains(propertyName) && field.Name.Contains("BackingField"))
-        {
-          if (IsCompilerGenerated(field))
-          {
-            return true;
-          }
-        }
+        return false;
       }
-
-      return false;
+      
+      var backingFieldName = GetAutoBackingFieldName(property.Name);
+      var backingField = property.DeclaringType.GetField(backingFieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+      return backingField != null && IsCompilerGenerated(backingField);
     }
 
     private static bool IsCompilerGenerated(MemberInfo memberInfo)
     {
-      var result = memberInfo.GetCustomAttributes<CompilerGeneratedAttribute>(true).Any();
+      var result = memberInfo.IsDefined<CompilerGeneratedAttribute>();
       return result;
     }
 
     private static bool IsDependency(PropertyInfo property)
     {
-      var result = property.GetCustomAttributes<DependencyAttribute>(true).Any();
+      var result = property.IsDefined<DependencyAttribute>();
       return result;
     }
 
+    private static string GetAutoBackingFieldName(string name)
+    {
+      return $"<{name}>k__BackingField";
+    }
+    
     /// <summary>
     /// PropertyName => _name;
     /// </summary>
