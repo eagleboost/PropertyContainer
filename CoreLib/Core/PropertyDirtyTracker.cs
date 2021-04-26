@@ -4,6 +4,7 @@ namespace CoreLib.Core
   using System.Collections;
   using System.Collections.Generic;
   using System.Linq;
+  using CoreLib.Extensions;
 
   /// <summary>
   /// PropertyDirtyTracker
@@ -57,11 +58,55 @@ namespace CoreLib.Core
     private static IPropertyDirtyState CreatePropertyDirtyState(PropertyDirtyTracker tracker, IProperty property)
     {
       var type = property.Type;
-      var dirtyStateType = typeof(PropertyDirtyState<>).MakeGenericType(type);
+      var dirtyStateType = GetDirtyStateType(type);
       var dirtyState = (IPropertyDirtyState)Activator.CreateInstance(dirtyStateType, tracker, property);
       return dirtyState;
     }
 
+    private static Type GetDirtyStateType(Type propertyType)
+    {
+      if (propertyType != typeof(string) && propertyType.IsSubclassOf<IEnumerable>())
+      {
+        var elementType = GetElementType(propertyType);
+        if (elementType != null)
+        {
+          return typeof(CollectionDirtyStateT<,>).MakeGenericType(propertyType, elementType);
+        }
+
+        return typeof(CollectionDirtyState<>).MakeGenericType(propertyType);
+      }
+      
+      return typeof(SingleDirtyState<>).MakeGenericType(propertyType);
+    }
+    
+    private static Type GetElementType(Type type)
+    {
+      var result = GetElementTypeCore(type);
+      if (result == null)
+      {
+        foreach (var intf in type.GetInterfaces())
+        {
+          result = GetElementTypeCore(intf);
+          if (result != null)
+          {
+            return result;
+          }
+        }
+      }
+
+      return result;
+    }
+    
+    private static Type GetElementTypeCore(Type type)
+    {
+      if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+      {
+        return type.GetGenericArguments()[0];
+      }
+      
+      return null;
+    }
+    
     private List<IPropertyDirtyState> GetDirtyStates()
     {
       var dirtyStates = _dirtyStates ?? throw new InvalidOperationException("Please call MarkInitialStates() first");

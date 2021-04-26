@@ -1,6 +1,6 @@
 namespace UnitTests
 {
-  using System;
+  using System.Collections;
   using System.Linq;
   using CoreLib.Core;
   using CoreLib.UnityExt;
@@ -10,34 +10,67 @@ namespace UnitTests
   public class PropertyDirtyTrackerTests
   {
     [Test]
-    public void Task_01_Creation()
-    {
-      var vm = CreateViewModel();
-      var tracker = CreateDirtyTracker(vm);
-      Assert.Throws<InvalidOperationException>(() =>
-      {
-        var isDirty = tracker.IsDirty;
-      });
-    }
-
-    [Test]
-    public void Task_02_Change_And_Restore()
+    public void Task_01_Change_And_Restore_01_Single()
     {
       var vm = CreateViewModel();
       var tracker = CreateDirtyTracker(vm);
       tracker.MarkInitialStates();
       
       vm.Name = "ABC";
-      Assert.That(tracker.IsDirty);
-      Assert.That(tracker.DirtyItems.Cast<string>().SequenceEqual(new[] {nameof(vm.Name)}));
+      AssertDirty(tracker, nameof(vm.Name));
 
       vm.Name = null;
-      Assert.That(!tracker.IsDirty);
-      Assert.That(!tracker.DirtyItems.Cast<string>().Any());
+      AssertNotDirty(tracker);
     }
 
     [Test]
-    public void Task_03_ReInitialize()
+    public void Task_01_Change_And_Restore_02_CollectionT()
+    {
+      var vm = CreateViewModel();
+      var tracker = CreateDirtyTracker(vm);
+      tracker.MarkInitialStates();
+      
+      vm.Address = new []{"Address1"};
+      AssertDirty(tracker, nameof(vm.Address));
+
+      vm.Address = null;
+      AssertNotDirty(tracker);
+      
+      vm.Address = new []{"Address1"};
+      tracker.MarkInitialStates();
+      AssertNotDirty(tracker);
+      
+      vm.Address = new []{"Address1", "Address2"};
+      AssertDirty(tracker, nameof(vm.Address));
+      vm.Address = new []{"Address1"};
+      AssertNotDirty(tracker);
+    }
+
+    [Test]
+    public void Task_01_Change_And_Restore_03_Collection()
+    {
+      var vm = CreateViewModel();
+      var tracker = CreateDirtyTracker(vm);
+      tracker.MarkInitialStates();
+      
+      vm.PhoneNumber = new []{123};
+      AssertDirty(tracker, nameof(vm.PhoneNumber));
+
+      vm.PhoneNumber = null;
+      AssertNotDirty(tracker);
+      
+      vm.PhoneNumber = new []{123};
+      tracker.MarkInitialStates();
+      AssertNotDirty(tracker);
+      
+      vm.PhoneNumber = new []{123, 456};
+      AssertDirty(tracker, nameof(vm.PhoneNumber));
+      vm.PhoneNumber = new []{123};
+      AssertNotDirty(tracker);
+    }
+
+    [Test]
+    public void Task_02_ReInitialize()
     {
       var vm = CreateViewModel();
       var tracker = CreateDirtyTracker(vm);
@@ -50,19 +83,19 @@ namespace UnitTests
       Assert.That(!tracker.IsDirty);
       
       vm.Name = "ABC";
-      Assert.That(!tracker.IsDirty);
+      AssertNotDirty(tracker);
     }
 
     [Test]
-    public void Task_04()
+    public void Task_03_Injection()
     {
       var vm = CreateViewModel<ViewModelWithDirtyTracker>();
       Assert.That(vm.DirtyTracker != null);
     }
     
-    private static ViewModel CreateViewModel()
+    private static TestViewModel CreateViewModel()
     {
-      return CreateViewModel<ViewModel>();
+      return CreateViewModel<TestViewModel>();
     }
     
     private static T CreateViewModel<T>() where T : class
@@ -74,11 +107,32 @@ namespace UnitTests
       return container.Resolve<T>();
     }
     
-    private static PropertyDirtyTracker CreateDirtyTracker(ViewModel viewModel)
+    private static PropertyDirtyTracker CreateDirtyTracker(TestViewModel testViewModel)
     {
       var tracker = new PropertyDirtyTracker();
-      tracker.SetParent(viewModel);
+      tracker.SetParent(testViewModel);
       return tracker;
+    }
+    
+    private static void AssertNotDirty(PropertyDirtyTracker tracker)
+    {
+      Assert.That(!tracker.IsDirty);
+      Assert.That(!tracker.DirtyItems.Cast<string>().Any());
+    }
+
+    private static void AssertDirty(PropertyDirtyTracker tracker, string name)
+    {
+      Assert.That(tracker.IsDirty);
+      Assert.That(tracker.DirtyItems.Cast<string>().SequenceEqual(new[] {name}));
+    }
+
+    public class TestViewModel
+    {
+      public virtual IEnumerable PhoneNumber { get; set; }
+      
+      public virtual string Name { get; set; }
+      
+      public virtual string[] Address { get; set; }
     }
   }
 }

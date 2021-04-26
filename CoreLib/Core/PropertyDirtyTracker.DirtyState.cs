@@ -14,43 +14,32 @@ namespace CoreLib.Core
       void Initialize();
     }
     
-    internal class PropertyDirtyState<TProperty> : IPropertyDirtyState
+    internal abstract class PropertyDirtyState<T> : IPropertyDirtyState
     {
-      private readonly PropertyDirtyTracker _tracker;
-      private readonly IProperty<TProperty> _property;
-      private TProperty _value;
-
-      public PropertyDirtyState(PropertyDirtyTracker tracker, IProperty<TProperty> property)
+      protected PropertyDirtyState(PropertyDirtyTracker tracker, IProperty<T> property)
       {
-        _tracker = tracker;
-        _property = property;
+        Tracker = tracker;
+        Property = property;
         Name = property.NameArgs.PropertyName;
         property.ValueChanged += HandlePropertyValueChanged;
       }
+
+      public readonly PropertyDirtyTracker Tracker;
+      
+      public  readonly IProperty<T> Property;
 
       public bool IsDirty => GetDirtyState();
 
       public string Name { get; }
 
-      public void Initialize()
+      public abstract void Initialize();
+
+      private void HandlePropertyValueChanged(object sender, ValueChangedArgs<T> e)
       {
-        _value = _property.Value;
+        Tracker.OnPropertyValueChanged(e);
       }
 
-      private void HandlePropertyValueChanged(object sender, ValueChangedArgs<TProperty> e)
-      {
-        _tracker.OnPropertyValueChanged(e);
-      }
-
-      private bool GetDirtyState()
-      {
-        if (EqualityComparer<TProperty>.Default.Equals(_value, _property.Value))
-        {
-          return false;
-        }
-
-        return true;
-      }
+      protected abstract bool GetDirtyState();
     }
   }
 }
