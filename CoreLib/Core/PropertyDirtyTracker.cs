@@ -63,50 +63,22 @@ namespace CoreLib.Core
       return dirtyState;
     }
 
-    private static Type GetDirtyStateType(Type propertyType)
+    private static Type GetDirtyStateType(Type type)
     {
-      if (propertyType != typeof(string) && propertyType.IsSubclassOf<IEnumerable>())
+      if (!type.MatchOpenType(typeof(IEquatable<>)) && type.IsSubclassOf<IEnumerable>())
       {
-        var elementType = GetElementType(propertyType);
+        var elementType = type.GetGenericArgumentType(typeof(IEnumerable<>));
         if (elementType != null)
         {
-          return typeof(CollectionDirtyStateT<,>).MakeGenericType(propertyType, elementType);
+          return typeof(CollectionDirtyStateT<,>).MakeGenericType(type, elementType);
         }
 
-        return typeof(CollectionDirtyState<>).MakeGenericType(propertyType);
+        return typeof(CollectionDirtyState<>).MakeGenericType(type);
       }
       
-      return typeof(SingleDirtyState<>).MakeGenericType(propertyType);
+      return typeof(SingleDirtyState<>).MakeGenericType(type);
     }
-    
-    private static Type GetElementType(Type type)
-    {
-      var result = GetElementTypeCore(type);
-      if (result == null)
-      {
-        foreach (var intf in type.GetInterfaces())
-        {
-          result = GetElementTypeCore(intf);
-          if (result != null)
-          {
-            return result;
-          }
-        }
-      }
 
-      return result;
-    }
-    
-    private static Type GetElementTypeCore(Type type)
-    {
-      if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
-      {
-        return type.GetGenericArguments()[0];
-      }
-      
-      return null;
-    }
-    
     private List<IPropertyDirtyState> GetDirtyStates()
     {
       var dirtyStates = _dirtyStates ?? throw new InvalidOperationException("Please call MarkInitialStates() first");
