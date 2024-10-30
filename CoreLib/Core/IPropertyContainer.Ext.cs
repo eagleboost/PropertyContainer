@@ -11,11 +11,11 @@ namespace CoreLib.Core
   /// </summary>
   public static class PropertyContainerExt
   {
-    public static IDisposable HookChange<T, TProperty>(this T container,
+    public static IDisposable? HookChange<T, TProperty>(this T container,
       Expression<Func<T, TProperty>> expr, EventHandler<ValueChangedArgs<TProperty>> handler)
     {
       var property = container.GetProperty(expr);
-      return property.HookChange(handler);
+      return property?.HookChange(handler);
     }
 
     public static IProperty<TProperty> GetProperty<T, TProperty>(this T container, Expression<Func<T, TProperty>> expr)

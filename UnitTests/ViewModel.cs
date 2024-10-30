@@ -7,5 +7,9 @@ namespace UnitTests
     public string NonVirtualName { get; set; }
     
     public virtual int Age { get; set; }
+    
+    public virtual bool IsFemale { get; set; }
+    
+    public virtual double Height { get; set; }
   }
 }

@@ -34,9 +34,9 @@ namespace CoreLib.Core
       AddProperty(name, wrapper);
     }
     
-    public IProperty<TProperty> CreateImplicit<TProperty>(string name, TProperty defValue = default)
+    public IProperty<TProperty> CreateImplicit<TProperty>(string name)
     {
-      Create(name, out var property, defValue);
+      Create(name, out var property, default(TProperty));
       return property;
     }
     

@@ -181,22 +181,7 @@ namespace CoreLib.UnityExt
       ctorIl.Emit(OpCodes.Ldfld, storeFieldBuilder); ////Load this._propertyStore
       //IL_0018: ldstr "Name"
       ctorIl.Emit(OpCodes.Ldstr, propertyName); ////Load "Name" as the name of the property
-      
-      ////Ideally we need to do type check and call corresponding OpCodes to load default value per type
-      ////but in our case the 3rd parameter of the Property<> ctor is default(T) so OpCodes.Ldnull works fine
-      
-      // if (propertyType == typeof(string))
-      // {
-      //   ctorIl.Emit(OpCodes.Ldnull); ////Load default value of the property
-      // }
-      // else if (propertyType == typeof(int))
-      // {
-      //   ctorIl.Emit(OpCodes.Ldc_I4_0); ////Load default value of the property
-      // }
 
-      //IL_001d: ldnull
-      ctorIl.Emit(OpCodes.Ldnull); ////Load default value of the property
-      
       //IL_001e: callvirt instance class IProperty`1<!!0> class PropertyStore`1<class C>::Create<string>(string, !!0)
       ctorIl.Emit(OpCodes.Callvirt, createMethod);  ////call _store.Create<String>("Name");
       //IL_0023: stfld class IProperty`1<string> C::_name
